@@ -49,7 +49,7 @@ class User extends Authenticatable implements JWTSubject
             # delete expired refresh tokens
             $this->refreshTokens()->where('expires_at', '<', now())->delete();
 
-            $refreshTokens = $this->refreshTokens()->get();
+            $refreshTokens = $this->refreshTokens();
 
             if ($refreshTokens->count() > $maxAllowableRefreshTokens) {
                 $refreshTokens->oldest()->first()->delete();
@@ -83,6 +83,7 @@ class User extends Authenticatable implements JWTSubject
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_super_admin' => 'boolean'
         ];
     }
 
