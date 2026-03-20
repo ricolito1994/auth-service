@@ -57,7 +57,7 @@ class User extends Authenticatable implements JWTSubject
 
             RefreshToken::create([
                 'user_id' => $this->id,
-                'token' => hash('sha256', $simpleToken),
+                'token' => $simpleToken = hash('sha256', $simpleToken),
                 'expires_at' => now()->addDays(30), 
             ]);
 
