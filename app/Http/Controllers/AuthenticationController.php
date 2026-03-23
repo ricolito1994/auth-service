@@ -68,7 +68,7 @@ class AuthenticationController extends Controller
 
             $generatedNewAccessToken = auth()->login($user);
 
-            $refreshToken->delete();
+            # $refreshToken->delete();
 
             return $this->respondWithToken($generatedNewAccessToken, $user);
 
@@ -116,5 +116,18 @@ class AuthenticationController extends Controller
             'refresh_token' => $user ? $user->createRefreshToken() : null,
             'user' => $user ?? null,
         ], 200);
+    }
+
+    public function findUser(User $user): JsonResponse 
+    {
+        try {
+            return response ()->json ($user, 200);
+        } catch (\Exception) {
+            return response ()->json ([
+                "message" => "Failed",
+                "reason" => $e->getMessage(),
+                "success" => false,
+            ], 500);
+        }
     }
 }
