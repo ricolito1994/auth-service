@@ -51,8 +51,8 @@ class User extends Authenticatable implements JWTSubject
 
             $refreshTokens = $this->refreshTokens();
 
-            if ($refreshTokens->count() > $maxAllowableRefreshTokens) {
-                $refreshTokens->oldest()->first()->delete();
+            if ($refreshTokens->count() >= $maxAllowableRefreshTokens) {
+               $refreshTokens->oldest()->limit(1)?->delete(); 
             }
 
             RefreshToken::create([
